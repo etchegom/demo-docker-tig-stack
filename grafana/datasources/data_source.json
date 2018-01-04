@@ -1,0 +1,11 @@
+{
+    "name": "telegraf",
+    "type": "influxdb",
+    "access": "proxy",
+    "url": "http://influxdb:8086",
+    "user": "$INFLUX_USER",
+    "password": "$INFLUX_PASSWORD",
+    "database": "$INFLUX_DB",
+    "basicAuth": false,
+    "isDefault": true
+}
