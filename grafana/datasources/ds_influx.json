@@ -1,5 +1,5 @@
 {
-    "name": "telegraf",
+    "name": "DS_INFLUX",
     "type": "influxdb",
     "access": "proxy",
     "url": "http://influxdb:8086",

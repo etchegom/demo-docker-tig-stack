@@ -1,45 +1,49 @@
-version: '2'
+version: '3'
 
 services:
 
-    influxdb:
-        build: influxdb
-        container_name: influxdb
-        restart: always
-        volumes:
-            - influxdb_data:/var/lib/influxdb
-        ports:
-            - "8086:8086"
-        networks:
-            - tig_network
+  influxdb:
+    build: influxdb
+    container_name: influxdb
+    restart: always
+    env_file:
+      - environment
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+    networks:
+      - tig_network
 
-    telegraf:
-        build: telegraf
-        container_name: telegraf
-        restart: always
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        depends_on:
-            - influxdb
-        networks:
-            - tig_network
+  telegraf:
+    build: telegraf
+    container_name: telegraf
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - influxdb
+    networks:
+      - tig_network
 
-    grafana:
-        build: grafana
-        container_name: grafana
-        restart: always
-        ports:
-            - 3000:3000
-        networks:
-            - tig_network
-        links:
-            - influxdb
-        volumes:
-            - grafana_data:/var/lib/grafana
+  grafana:
+    build: grafana
+    container_name: grafana
+    restart: always
+    env_file:
+      - environment
+    ports:
+      - 3000:3000
+    networks:
+      - tig_network
+    links:
+      - influxdb
+    volumes:
+      - grafana_data:/var/lib/grafana
 
 networks:
-    tig_network:
-        driver: bridge
+  tig_network:
+    driver: bridge
         
 volumes:
   grafana_data:
